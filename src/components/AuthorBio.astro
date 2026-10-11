@@ -1,0 +1,87 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+type Props = {
+	author: CollectionEntry<'authors'>['data'];
+};
+
+const { author } = Astro.props;
+---
+
+<section class="author-bio" aria-labelledby="author-heading">
+	<h2 id="author-heading">About the author</h2>
+	<div class="author-details">
+		{
+			author.avatar && (
+				<Image class="avatar" src={author.avatar} alt={author.name} width={112} height={112} />
+			)
+		}
+		<div>
+			<h3>{author.name}</h3>
+			<p>{author.bio}</p>
+			{
+				author.socialLinks?.length ? (
+					<ul class="social-links" aria-label={`${author.name}'s social links`}>
+						{author.socialLinks.map((link) => (
+							<li>
+								<a href={link.url} rel="me">
+									{link.name}
+								</a>
+							</li>
+						))}
+					</ul>
+				) : null
+			}
+		</div>
+	</div>
+</section>
+
+<style>
+	.author-bio {
+		margin-top: 3em;
+		padding-top: 1.5em;
+		border-top: 1px solid rgb(var(--gray-light));
+	}
+
+	.author-bio h2 {
+		font-size: 1.25em;
+	}
+
+	.author-details {
+		display: flex;
+		align-items: flex-start;
+		gap: 1.25em;
+	}
+
+	.avatar {
+		flex: 0 0 7rem;
+		width: 7rem;
+		height: 7rem;
+		object-fit: cover;
+		border-radius: 50%;
+	}
+
+	.author-details h3 {
+		font-size: 1.1em;
+	}
+
+	.author-details p {
+		margin: 0 0 0.75em;
+	}
+
+	.social-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5em 1em;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	@media (max-width: 480px) {
+		.author-details {
+			flex-direction: column;
+		}
+	}
+</style>

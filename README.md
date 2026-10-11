@@ -39,6 +39,10 @@ There's nothing special about `src/components/`, but that's where we like to put
 
 The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
 
+## Author profiles
+
+Add an author profile as a Markdown file in `src/content/authors/`. Its frontmatter requires `name` and `bio`, and can include an `avatar` image and `socialLinks` (a list of `name` and `url` pairs). Set the profile's file name, without the `.md` extension, as the `author` field in a blog post's frontmatter. For example, `src/content/authors/jane-doe.md` is referenced with `author: jane-doe`. The profile appears at the end of posts that reference it.
+
 Any static assets, like images, can be placed in the `public/` directory.
 
 ## 🧞 Commands

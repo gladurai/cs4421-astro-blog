@@ -1,5 +1,5 @@
 ---
-import { type CollectionEntry, getCollection, render } from 'astro:content';
+import { type CollectionEntry, getCollection, getEntry, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
 
 export async function getStaticPaths() {
@@ -13,8 +13,15 @@ type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
 const { Content } = await render(post);
+const authorEntry = post.data.author ? await getEntry('authors', post.data.author) : undefined;
+
+if (post.data.author && !authorEntry) {
+	throw new Error(
+		`Author profile "${post.data.author}" referenced by blog post "${post.id}" was not found.`,
+	);
+}
 ---
 
-<BlogPost {...post.data}>
+<BlogPost {...post.data} authorProfile={authorEntry?.data}>
 	<Content />
 </BlogPost>
