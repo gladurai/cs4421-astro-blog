@@ -12,13 +12,11 @@
     "astro": "astro",
     "check": "astro check",
     "lint": "eslint .",
-    "test:unit": "vitest run",
-    "lint": "eslint ."
+    "test:unit": "vitest run"
   },
   "devDependencies": {
     "eslint": "^10.12.0",
     "eslint-plugin-astro": "^3.2.1",
-    "vitest": "5.0.3"
     "vitest": "^5.0.3"
   },
   "dependencies": {
