@@ -18,7 +18,12 @@ export class StaticSiteStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
-    const originAccessIdentity = new cloudfront.OriginAccessIdentity(this, 'SiteOriginAccessIdentity');
+    const originAccessIdentity = new cloudfront.OriginAccessIdentity(
+      this,
+      'SiteOriginAccessIdentity',
+    );
+
+    siteBucket.grantRead(originAccessIdentity);
 
     const distribution = new cloudfront.Distribution(this, 'SiteDistribution', {
       defaultRootObject: 'index.html',
