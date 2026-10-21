@@ -30,6 +30,9 @@ test('creates an S3-hosted static site with CloudFront deployment', () => {
     },
   });
 
+  template.resourceCountIs('AWS::CloudFront::OriginAccessControl', 1);
+  template.resourceCountIs('AWS::CloudFront::CloudFrontOriginAccessIdentity', 0);
+
   template.hasResourceProperties('Custom::CDKBucketDeployment', {
     Prune: true,
   });
