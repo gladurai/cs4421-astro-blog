@@ -1,11 +1,5 @@
-#!/usr/bin/env node
-import * as cdk from 'aws-cdk-lib';
-import { StaticSiteStack } from '../lib/static-site-stack';
+import { App } from 'aws-cdk-lib';
+import { CdkStack } from '../lib/cdk-stack';
 
-const app = new cdk.App();
-new StaticSiteStack(app, 'StaticSiteStack', {
-  env: {
-    account: process.env.CDK_DEFAULT_ACCOUNT,
-    region: process.env.CDK_DEFAULT_REGION ?? 'eu-west-1',
-  },
-});
+const app = new App();
+new CdkStack(app, 'MyAstroBlogStack');

@@ -22,8 +22,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Install CDK dependencies
+        run: npm ci --prefix cdk
+
       - name: Run ESLint
         run: npm run lint
 
       - name: Run Vitest
         run: npm run test:unit
+
+      - name: Run CDK tests
+        run: npm run test:cdk
+
+      - name: Type-check CDK app
+        run: npm --prefix cdk run build
