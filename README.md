@@ -58,6 +58,13 @@ All commands are run from the root of the project, from a terminal:
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
 
+## AWS CDK
+
+The TypeScript CDK app lives in `cdk/` and uses Vitest with `aws-cdk-lib/assertions`.
+Install its dependencies with `npm ci --prefix cdk`, then run its tests from the
+repository root with `npm run test:cdk`. Use `npm --prefix cdk run synth` to synthesize
+the CloudFormation template.
+
 ## 👀 Want to learn more?
 
 Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).

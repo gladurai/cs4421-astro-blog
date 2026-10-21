@@ -12,7 +12,8 @@
     "astro": "astro",
     "check": "astro check",
     "lint": "eslint .",
-    "test:unit": "vitest run"
+    "test:unit": "vitest run src",
+    "test:cdk": "npm --prefix cdk test"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.71.2",

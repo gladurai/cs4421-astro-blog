@@ -1,5 +1,8 @@
 # build output
 dist/
+cdk/cdk.out/
+cdk/dist/
+cdk/coverage/
 # generated types
 .astro/
 
