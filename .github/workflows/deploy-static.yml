@@ -53,4 +53,4 @@ jobs:
 
       - name: Deploy static site stack
         working-directory: cdk
-        run: npx cdk deploy StaticSiteStack --require-approval never
+        run: npx cdk deploy MyAstroBlogStack --require-approval never
