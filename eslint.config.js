@@ -15,5 +15,13 @@ export default [
             "no-unused-vars": "warn",
             "no-undef": "warn"
         }
+    },
+    {
+        files: ["cdk/test/**/*.ts"],
+        languageOptions: {
+            globals: {
+                test: "readonly"
+            }
+        }
     }
 ];
