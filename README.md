@@ -68,22 +68,17 @@ assets.
 
 ### GitHub Actions deployment
 
-Pushes to `main` or `master` deploy the site to AWS using GitHub's OIDC federation;
-pull requests run checks but do not receive AWS credentials. Configure the following
-before enabling deployment:
+Pushes to `main` or `master` deploy the site to AWS; pull requests run checks without
+receiving AWS credentials. Add these GitHub Actions repository secrets before enabling
+deployment:
 
-1. In the GitHub repository, add an Actions secret named `AWS_ROLE_ARN` containing
-   the ARN of an IAM role for GitHub Actions.
-2. In AWS IAM, configure the role to trust the GitHub OIDC provider
-   (`token.actions.githubusercontent.com`), with audience `sts.amazonaws.com` and a
-   subject restricted to this repository's `main` and `master` refs:
-   `repo:gladurai/cs4421-astro-blog:ref:refs/heads/main` and
-   `repo:gladurai/cs4421-astro-blog:ref:refs/heads/master`.
-3. Grant that role the permissions required to deploy this CDK stack and bootstrap
-   the target account/region for CDK v2 if it has not already been bootstrapped.
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
 
-The workflow assumes this role only for pushes to those branches, then deploys the
-site to `eu-west-1`. It does not use long-lived AWS access keys.
+Use credentials for an IAM user with only the permissions required to deploy this CDK
+stack. Bootstrap the target AWS account in `eu-west-1` for CDK v2 if it has not already
+been bootstrapped. These credentials are used by both deployment workflows and should
+be stored only as GitHub secrets, rotated regularly, and never committed to the repo.
 
 ## 👀 Want to learn more?
 
