@@ -8,6 +8,9 @@ on:
 jobs:
   lint-and-test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
       - name: Checkout repository
@@ -31,8 +34,23 @@ jobs:
       - name: Run Vitest
         run: npm run test:unit
 
+      - name: Build static site
+        run: npm run build
+
       - name: Run CDK tests
         run: npm run test:cdk
 
       - name: Type-check CDK app
         run: npm --prefix cdk run build
+
+      - name: Configure AWS credentials
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: eu-west-1
+          role-session-name: GitHubActionsDeploy
+
+      - name: Deploy static site
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+        run: npm --prefix cdk run deploy

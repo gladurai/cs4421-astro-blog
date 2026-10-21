@@ -1,5 +1,5 @@
 import { App } from 'aws-cdk-lib';
-import { CdkStack } from '../lib/cdk-stack';
+import { StaticSiteStack } from '../lib/static-site-stack';
 
 const app = new App();
-new CdkStack(app, 'MyAstroBlogStack');
+new StaticSiteStack(app, 'MyAstroBlogStack');

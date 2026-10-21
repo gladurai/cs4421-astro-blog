@@ -62,8 +62,28 @@ All commands are run from the root of the project, from a terminal:
 
 The TypeScript CDK app lives in `cdk/` and uses Vitest with `aws-cdk-lib/assertions`.
 Install its dependencies with `npm ci --prefix cdk`, then run its tests from the
-repository root with `npm run test:cdk`. Use `npm --prefix cdk run synth` to synthesize
-the CloudFormation template.
+repository root with `npm run test:cdk`. Run `npm run build` before
+`npm --prefix cdk run synth` to synthesize the CloudFormation template with the site
+assets.
+
+### GitHub Actions deployment
+
+Pushes to `main` or `master` deploy the site to AWS using GitHub's OIDC federation;
+pull requests run checks but do not receive AWS credentials. Configure the following
+before enabling deployment:
+
+1. In the GitHub repository, add an Actions secret named `AWS_ROLE_ARN` containing
+   the ARN of an IAM role for GitHub Actions.
+2. In AWS IAM, configure the role to trust the GitHub OIDC provider
+   (`token.actions.githubusercontent.com`), with audience `sts.amazonaws.com` and a
+   subject restricted to this repository's `main` and `master` refs:
+   `repo:gladurai/cs4421-astro-blog:ref:refs/heads/main` and
+   `repo:gladurai/cs4421-astro-blog:ref:refs/heads/master`.
+3. Grant that role the permissions required to deploy this CDK stack and bootstrap
+   the target account/region for CDK v2 if it has not already been bootstrapped.
+
+The workflow assumes this role only for pushes to those branches, then deploys the
+site to `eu-west-1`. It does not use long-lived AWS access keys.
 
 ## 👀 Want to learn more?
 

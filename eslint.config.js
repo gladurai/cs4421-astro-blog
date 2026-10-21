@@ -23,5 +23,13 @@ export default [
                 test: "readonly"
             }
         }
+    },
+    {
+        files: ["cdk/lib/**/*.ts"],
+        languageOptions: {
+            globals: {
+                __dirname: "readonly"
+            }
+        }
     }
 ];
