@@ -1,16 +1,16 @@
-export type JsonLogLevel = 'info' | 'warn' | 'error';
+export type LogLevel = 'info' | 'warn' | 'error';
 
 export function logJson(
-  level: JsonLogLevel,
-  message: string,
-  context: Record<string, unknown> = {},
+	level: LogLevel,
+	message: string,
+	fields: Record<string, unknown> = {},
 ): void {
-  const entry = {
-    ...context,
-    timestamp: new Date().toISOString(),
-    level,
-    message,
-  };
-
-  console[level](JSON.stringify(entry));
+	console[level](
+		JSON.stringify({
+			...fields,
+			timestamp: new Date().toISOString(),
+			level,
+			message,
+		}),
+	);
 }
