@@ -80,6 +80,18 @@ stack. Bootstrap the target AWS account in `eu-west-1` for CDK v2 if it has not 
 been bootstrapped. These credentials are used by both deployment workflows and should
 be stored only as GitHub secrets, rotated regularly, and never committed to the repo.
 
+### Container image
+
+The `Build and publish container` workflow builds the [Dockerfile](./Dockerfile) and
+publishes the image to GitHub Container Registry on pushes to `main` or `master`.
+The published image is `ghcr.io/<owner>/<repository>` with branch, commit SHA, and
+(on `main` or `master`) `latest` tags. The workflow can also be started manually from
+the Actions tab.
+
+The workflow publishes the image but does not deploy it to a running container
+service. Configure a container host separately to pull and run the published image;
+no container hosting service is currently defined in this repository.
+
 ## 👀 Want to learn more?
 
 Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
