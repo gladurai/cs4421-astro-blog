@@ -83,10 +83,15 @@ be stored only as GitHub secrets, rotated regularly, and never committed to the 
 ### Container image
 
 The `Build and publish container` workflow builds the [Dockerfile](./Dockerfile) and
-publishes the image to GitHub Container Registry on pushes to `main` or `master`.
-The published image is `ghcr.io/<owner>/<repository>` with branch, commit SHA, and
-(on `main` or `master`) `latest` tags. The workflow can also be started manually from
-the Actions tab.
+publishes the image to Amazon ECR in `eu-north-1` on pushes to `main` or `master`.
+The image is published to
+`300124791907.dkr.ecr.eu-north-1.amazonaws.com/devopsprojectresurrection` with branch,
+commit SHA, and (on `main` or `master`) `latest` tags. The workflow can also be started
+manually from the Actions tab.
+
+The workflow uses the `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` repository
+secrets. The associated IAM identity needs permission to authenticate to ECR and push
+images to the `devopsprojectresurrection` repository in account `300124791907`.
 
 The workflow publishes the image but does not deploy it to a running container
 service. Configure a container host separately to pull and run the published image;

@@ -1,11 +1,21 @@
 import type { APIRoute } from 'astro';
+import { logJson } from '../../utils/logger';
 
 export const GET: APIRoute = async () => {
+	const timestamp = new Date().toISOString();
+	const uptime = process.uptime();
+
+	logJson('info', 'Health check requested', {
+		route: '/api/health',
+		status: 'ok',
+		uptime,
+	});
+
 	return new Response(
 		JSON.stringify({
 			status: 'ok',
-			uptime: process.uptime(),
-			timestamp: new Date().toISOString(),
+			uptime,
+			timestamp,
 		}),
 		{ status: 200, headers: { 'Content-Type': 'application/json' } },
 	);
