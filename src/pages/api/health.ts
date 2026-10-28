@@ -19,6 +19,6 @@ export const GET: APIRoute = async () => {
 			uptime,
 			timestamp,
 		}),
-		{ status: 200, headers: { 'Content-Type': 'application/json' } },
+		{ status: 500, headers: { 'Content-Type': 'application/json' } },
 	);
 };
