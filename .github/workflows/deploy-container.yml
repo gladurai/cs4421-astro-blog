@@ -13,7 +13,32 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
+      - name: Run unit tests
+        run: npm run test:unit
+
   publish:
+    needs: test
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -42,7 +67,7 @@ jobs:
           images: 300124791907.dkr.ecr.eu-north-1.amazonaws.com/devopsprojectresurrection
           tags: |
             type=ref,event=branch
-            type=sha,prefix=sha-
+            type=sha,prefix=sha-,format=long
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' }}
 
       - name: Build and publish container
@@ -54,3 +79,24 @@ jobs:
           labels: ${{ steps.metadata.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Download current task definition
+        run: |
+          aws ecs describe-task-definition --task-definition my-astro-blog-task \
+            --query taskDefinition > task-definition.json
+
+      - name: Point task definition at the new image
+        id: render
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: astro-blog-container
+          image: 300124791907.dkr.ecr.eu-north-1.amazonaws.com/devopsprojectresurrection:sha-${{ github.sha }}
+
+      - name: Deploy to ECS and wait for healthy
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.render.outputs.task-definition }}
+          cluster: devopsclusterlol
+          service: my-astro-blog-task-service-4s88l85l
+          wait-for-service-stability: true
