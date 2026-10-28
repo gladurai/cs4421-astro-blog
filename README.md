@@ -91,11 +91,11 @@ manually from the Actions tab.
 
 The workflow uses the `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` repository
 secrets. The associated IAM identity needs permission to authenticate to ECR and push
-images to the `devopsprojectresurrection` repository in account `300124791907`.
-
-The workflow publishes the image but does not deploy it to a running container
-service. Configure a container host separately to pull and run the published image;
-no container hosting service is currently defined in this repository.
+images to the `devopsprojectresurrection` repository in account `300124791907`, and
+to update the `my-astro-blog-task` task definition and
+`my-astro-blog-task-service-4s88l85l` service in the `devopsclusterlol` ECS cluster.
+After publishing, it updates the `astro-blog-container` image and waits for the service
+to become stable.
 
 ## 👀 Want to learn more?
 

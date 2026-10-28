@@ -8,12 +8,14 @@ export const GET: APIRoute = async () => {
 	logJson('info', 'Health check requested', {
 		route: '/api/health',
 		status: 'ok',
+		version: 'v2',
 		uptime,
 	});
 
 	return new Response(
 		JSON.stringify({
 			status: 'ok',
+			version: 'v2',
 			uptime,
 			timestamp,
 		}),
